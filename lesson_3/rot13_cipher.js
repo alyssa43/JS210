@@ -8,18 +8,18 @@ function createRange(start, end) {
   return range;
 }
 
-function isUpperCase(char) {
-  return char === char.toUpperCase();
-}
-
 function asciiValue(char) {
   return char.charCodeAt(0);
+}
+
+function isUpperCase(char) {
+  return char === char.toUpperCase();
 }
 
 function rotCharacter(char) {
   const OFFSET = 13;
   let range = isUpperCase(char) ? UPPERCASE_RANGE : LOWERCASE_RANGE;
-  let index = range.indexOf(char.charCodeAt(0));
+  let index = range.indexOf(asciiValue(char));
   let middleIndex = (range.length / 2) - 1;
   let newIndex = index <= middleIndex ? index + OFFSET : index - OFFSET;
 
@@ -35,8 +35,6 @@ function rot13(string) {
 
   return result;
 }
-
-console.log(rot13('MN'))
 
 console.log(rot13('Teachers open the door, but you must enter by yourself.') === 'Grnpuref bcra gur qbbe, ohg lbh zhfg ragre ol lbhefrys.');
 
