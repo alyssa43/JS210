@@ -89,7 +89,7 @@ function join(array, string) {
       result += string;
     }
   }
-  
+
   return result;
 }
 
