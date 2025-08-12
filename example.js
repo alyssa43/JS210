@@ -1,35 +1,35 @@
-function isDivisible(number, divisor) {
-  return number % divisor === 0;
+function countOccurrances(array, element) {
+  return array.filter(el => el === element).length;
 }
 
-function isPrime(number) {
-  if (number <= 1 || number > 2 && isDivisible(number, 2)) return false;
+function areArraysEqual(array1, array2) {
+  for (let index = 0; index < array1.length; index++) {
+    const el1 = array1[index];
+    const el2 = array2[index];
+    
+    const el1Arr1Count = countOccurrances(array1, el1);
+    const el1Arr2Count = countOccurrances(array2, el1);
 
-  for (let i = 3; i < number; i += 2) {
-    if (isDivisible(number, i)) return false;
+    const el2Arr1Count = countOccurrances(array1, el2);
+    const el2Arr2Count = countOccurrances(array2, el2);
+
+    if (el1Arr1Count !== el1Arr2Count || el2Arr1Count !== el2Arr2Count) {
+      return false;
+    }
+
   }
 
   return true;
 }
 
-function checkGoldbach(expectedSum) {
-  if (expectedSum % 2 != 0 || expectedSum < 4) return null;
-
-  let range = [];
-
-  for (let i = 2; i <= expectedSum - 2; i++) {
-    if (isPrime(i)) range.push(i);
-  }
-
-  let logged_numbers = [];
-
-  range.forEach(num => {
-    let num2 = expectedSum - num;
-    if (range.includes(num2) && !logged_numbers.includes(num2)) {
-      console.log(`${num} ${num2}`);
-      logged_numbers.push(num2);
-    }
-  });
-}
-
-checkGoldbach(12);
+// console.log(areArraysEqual([1, 2, 3], [1, 2, 3]));             // true
+// console.log(areArraysEqual([1, 2, 3], [3, 2, 1]));             // true
+// console.log(areArraysEqual(['a', 'b', 'c'], ['b', 'c', 'a'])); // true
+// console.log(areArraysEqual(['1', 2, 3], [1, 2, 3]));           // false
+// console.log(areArraysEqual([1, 1, 2, 3], [3, 1, 2, 1]));       // true
+// console.log(areArraysEqual([1, 2, 3, 4], [1, 1, 2, 3]));       // false
+// console.log(areArraysEqual([1, 1, 2, 2], [4, 2, 3, 1]));       // false
+// console.log(areArraysEqual([1, 1, 2], [1, 2, 2]));             // false
+// console.log(areArraysEqual([1, 1, 1], [1, 1]));                // false
+// console.log(areArraysEqual([1, 1], [1, 1]));                   // true
+console.log(areArraysEqual([1, '1'], ['1', 1]));               // true
