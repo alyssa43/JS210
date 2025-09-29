@@ -1,33 +1,36 @@
-// Solution #1:
-// function sumOfSums(numbers) {
-//   const result = [];
+// Problem:
+  // Given an array of numbers, find and return the accumulated sum of each number in the array
+  // Rules: The array will always contain at least one number
 
-//   for (let i = 0; i < numbers.length; i += 1) {
-//     const slice = numbers.slice(0, i + 1);
-//     result.push(sumArray(slice));
-//   }
+// Example:
+  // Given: [3, 5, 2]
+  // [ 3 8 10] => 21
 
-//   return sumArray(result);
+// Algorithm:
+  // Transform the given array where each element gets transformed into an array of sliced values
+  // Reduce each transformed subarray to its sum
+  // Reduce transformed array to its sum
+
+// // First solution (second time revisiting):
+// function sumOfSums(array) {
+//   const sums = array.reverse().map((_, index) => array.slice(index));
+//   return sumArray(sums.map(sumArray));
 // }
 
+// function sumArray(array) {
+//   return array.reduce((sum, num) => sum + num, 0);
+// }
 
-// Solution #2:
-function sumOfSums(nums) {
-  return sumArray(nums.map((_, i) => sumArray(nums.slice(0, i + 1))));
+// Second solution (second time revisiting):
+function sumOfSums(array) {
+  return sumArray(array.map((_, index) => sumArray(array.slice(0, index + 1))));
 }
 
 function sumArray(array) {
-  return array.reduce((acc, value) => acc + value, 0);
+  return array.reduce((acc, num) => acc + num, 0);
 }
 
-console.log(sumOfSums([3, 5, 2])); // (3) + (3 + 5) + (3 + 5 + 2) --> 21
-console.log(sumOfSums([1, 5, 7, 3])); // 36
-console.log(sumOfSums([4])); // 4
-console.log(sumOfSums([1, 2, 3, 4, 5])); // 35
-
-// [ [3] [ 3 5 ] [3 5 2]]
-  // slice(0, 1)
-  // slice(0, 2)
-  // slice(0, 3)
-// [   3    8      10   ]
-// 21 
+console.log(sumOfSums([3, 5, 2]));        // (3) + (3 + 5) + (3 + 5 + 2) --> 21
+console.log(sumOfSums([1, 5, 7, 3]));     // (1) + (1 + 5) + (1 + 5 + 7) + (1 + 5 + 7 + 3) --> 36
+console.log(sumOfSums([4]));              // 4
+console.log(sumOfSums([1, 2, 3, 4, 5]));  // 35

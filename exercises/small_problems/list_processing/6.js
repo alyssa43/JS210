@@ -1,46 +1,23 @@
-// Solution w/o helper
-// function substrings(string) {
-//   const result = [];
-
-//   for (let index1 = 0; index1 < string.length; index1 += 1) {
-//     for (let index2 = index1; index2 < string.length; index2 += 1) {
-//       result.push(string.slice(index1, index2 + 1));
-//     }
-//   }
-
-//   return result;
-// }
-
-// Solution using `substrings`
-function leadingSubstrings(string) { // 'abc' => ["a", "ab", "abc"]
-  return string.split('').map((char, index) => {
-    return string.slice(0, index) + char;
-  });
-}
-
 function substrings(string) {
-  const result = [];
-  for (let i = 0; i < string.length; i += 1) {
-    result.push(...leadingSubstrings(string.slice(i, string.length)))
-  }
+  const allSubstrings = [];
+  for (let index in string) {
+    allSubstrings.push(...leadingSubstrings(string.slice(index)));
+  };
 
-  return result;
+  return allSubstrings;
 }
 
-// 'abcde' => [a,ab,abc,abd,abcd,abcde]
-// 'bcde'  => [b,bc,bcd,bcde]
-// 'cde'   => [c,cd,cde]
-// 'de'    => [d,de]
-// 'e'     => [e]
-
+function leadingSubstrings(string) {
+  return string.split('').map((char, index) => string.slice(0, index) + char);
+}
+ 
 
 console.log(substrings('abcde'));
+// console.log(leadingSubstrings('abc'));      // ["a", "ab", "abc"]
 
 // returns
-// [ "a", "ab", "abc", "abcd", "abcde",
+// [ "a", "ab", "abc", "abcd", "abcde", => slice(0,)
 //   "b", "bc", "bcd", "bcde",
 //   "c", "cd", "cde",
 //   "d", "de",
 //   "e" ]
-  // 
-  

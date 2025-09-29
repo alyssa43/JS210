@@ -1,35 +1,53 @@
+// Write a function that takes a grocery list in a two-dimensional array and returns a one-dimensional array. Each element in the grocery list contains a fruit name and a number that represents the desired quantity of that fruit. The output array is such that each fruit name appears the number of times equal to its desired quantity.
 
-// Solution using custom `times` function
-// function buyFruit(groceryList) {
+// First Result:
+// function buyFruit(list) {
+
 //   const result = [];
-
-//   groceryList.forEach(itemArr => {
-//     const [ item, quantity ] = itemArr;
-//     times(quantity, () => result.push(item));
-//   });
+//   for (let [fruit, quantity] of list) {
+//     times(quantity, () => addItemToArray(fruit, result));
+//   }
 
 //   return result;
 // }
 
-// function times(n, callback) {
-//   for (let i = 0; i < n; i += 1) {
-//     callback(i);
-//   }
-// }
+// Result using `reduce`:
 
+function addItems(item, array) {
+  array.push(item);
+}
 
-function  buyFruit(groceryList) {
-  const result = [];
+function times(n, func) {
+  for (let i = 0; i < n; i += 1) {
+    func(i);
+  }
+}
 
-  for (let i = 0; i < groceryList.length; i += 1) {
-    const [ item, quantity ] = groceryList[i];
-    for (let i = 0; i < quantity; i += 1) {
-      result.push(item);
-    };
-  };
-
-  return result;
+function buyFruit(list) {
+  return list.reduce((result, [fruit, quantity]) => {
+    times(quantity, () => addItems(fruit, result));
+    return result;
+  }, []);
 }
 
 console.log(buyFruit([['apple', 3], ['orange', 1], ['banana', 2]]));
 // returns ["apple", "apple", "apple", "orange", "banana", "banana"]
+
+// let shoppingCart = [
+//   { category: 'produce', items: ['apple', 'banana', 'carrot'] },
+//   { category: 'dairy', items: ['milk', 'cheese'] },
+//   { category: 'pantry', items: ['bread'] }
+// ];
+
+// // Our goal is to get this array: ['apple', 'banana', 'carrot', 'milk', 'cheese', 'bread'].
+
+// let itemsArrays = shoppingCart.map(cart => cart.items);
+// console.log(itemsArrays); 
+// // [ [ 'apple', 'banana', 'carrot' ], [ 'milk', 'cheese' ], [ 'bread' ] ]
+
+// let allItems = itemsArrays.reduce((result, currentItems) => {
+//   return result.concat(currentItems);
+// }, []);
+
+// console.log(allItems); 
+// // [ 'apple', 'banana', 'carrot', 'milk', 'cheese', 'bread' ]
