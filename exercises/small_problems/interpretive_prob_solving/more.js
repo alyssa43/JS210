@@ -164,10 +164,7 @@ HELPER: gatherElements(index, ...arrays)
 // }
 
 // function gatherElementsAtIndex(index, ...arrays) {
-//   return arrays.map(arr => {
-//     // return arr.hasOwnProperty(index) ? arr[index] : '*');
-//     return Object.hasOwn(arr, index) ? arr[index] : '*'; // LSBot suggested
-//   });
+//   return arrays.map(arr => arr.hasOwnProperty(index) ? arr[index] : '*');
 // }
 
 // console.log(combineArrays([], [], [])); // []
@@ -329,12 +326,43 @@ Rules:
   --> Will the given array subarrays only contain numbers? No, it can contain any other non-primitive value
   --> The matrix will always be sqaure(EX: array length === all subarrays length)
   --> Only transform "above" the diagonal
+  --> The diagonal is always the element at the same index as that subarrays index within the input array
+    EX: arr[0][0], arr[1][1], arr[2][2] and so on..
+  --> The elements to be transformed will have an index greater than the current subarrays index within input array
 
 Definitions:
   --> Matrix: an n X n grid
   --> The diagonal: an imaginary line from top left to bottom right (EX: arr[0][0], arr[1][1], arr[2][2]...)
 
+---- EXAMPLES ----
+[[1, 2, 3], [4, 5, 6], [7, 8, 9]].map passing in each subarray and it's index --> `subarr` `diagonalIndex`
+  subarr => [1, 2, 3] diagnoalIndex => 0
+    subarr.map passing in each element and it's index --> `element` `elementIndex`
+      element => 1
+      elementIndex => 0
+        if the elementIndex is greater than the diagnoalIndex, return 0; else return element
+      ... [1, 0, 0]
+
+---- DATA STRUCTURES ----
+starting: nested array
+  intermediate: transform the input array using `map`
+ending: transformed nested array
+
+---- ALGORITHM ----
+1. Iterate through the input array using `map`, passing in each `subarray` and it's index which will represent the `diagnoalIndex`
+  2. Iterate through the `subarray` using `map`, passing in each `element` and it's index `elementIndex`
+    3. If the `elementIndex` is greater than the `diagonalIndex` than return 0; else return the `element`
+    4. Return the mapped `subarray`
+4. Return the transformed input array
 */
+
+function lowerTriang(array) {
+  return array.map((subarr, diagonalIndex) => {
+    return subarr.map((element, elementIndex) => {
+      return elementIndex > diagonalIndex ? 0: element;
+    });
+  });
+}
 
 console.log(lowerTriang([[1, 2, 3], [4, 5, 6], [7, 8, 9]])); 
 // [[1, 0, 0],[4, 5, 0], [7, 8, 9]]
@@ -345,21 +373,3 @@ console.log(lowerTriang([[5, 7], [7, 9]]));
 console.log(lowerTriang([[1, 8, 8, 1], [2, 7, 7, 2], [3, 6, 6, 3],[4, 5, 5, 4]])); 
 // [[1, 0, 0, 0], [2, 7, 0, 0], [3, 6, 6, 0], [4, 5, 5, 4]]
 
-
-
-
-//// SPOT SESSION ////
-
-// Create a function that takes three arrays and returns one array where all passed arrays are combined into nested arrays.
-
-// These arrays should be combined based on indexes: the first nested array should contain only the items on index 0, the second array on index 1, and so on.
-
-// If any array contains fewer items than necessary, supplement the missing item with "*".
-
-// Examples
-
-// combineArrays([false, "false"], ["true", true, "bool"], ["null", "undefined"]) ➞ [[false, "true", "null"], ["false", true, "undefined"], ["*", "bool", "*"]]
-
-// combineArrays([1, 2, 3], [4, 5, 6], [7, 8, 9]) ➞ [[1, 4, 7], [2, 5,  8], [3, 6, 9]]
-
-// combineArrays(["Jack", "Joe", "Jill"], ["Stuart", "Sammy", "Silvia"], ["Rick", "Raymond", "Riri"]) ➞ [["Jack", "Stuart", "Rick"], ["Joe", "Sammy",  "Raymond"], ["Jill", "Silvia", "Riri"]]
